@@ -1,0 +1,30 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="{% static 'accounts/style.css' %}">
+	<title>Profile</title>
+{% endblock %}
+
+
+{% block body %}
+<h1>Profile</h1>
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success" role="alert">
+	<center>{{ message }}</center>
+</div>
+{% endfor %}
+{% endif %}
+	<p><em>Username: </em>{{ user }}</p>
+	<p><em>First Name: </em>{{ user.first_name }}</p>
+	<p><em>Last Name: </em>{{ user.last_name }}</p>
+	<p><em>Email: </em>{{ user.email }}</p>
+	<p><em>Discription: </em>{{ user.userprofile.description }}</p>
+	<p><em>City: </em>{{ user.userprofile.city }}</p>
+	<p><em>Website: </em>{{ user.userprofile.website }}</p>
+	<p><em>Phone: </em>{{ user.userprofile.phone }}</p>
+	{% if user.userprofile.image %}
+	<img src="{{ user.userprofile.image.url }}" width="250">
+	{% endif %}
+{% endblock %}

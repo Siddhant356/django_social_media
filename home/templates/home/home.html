@@ -1,0 +1,48 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="{% static 'accounts/style.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="row">
+<div class="col-md-8">
+	<h1>Home</h1>
+<form method="POST">
+	{% csrf_token %}
+	{{ form.post }}
+	<br>
+	<button class="btn btn-danger btn-sm" type="submit" name="button">
+			Submit
+		</button>
+</form>
+<br>
+	{% for p in posts %}
+	<h5>{{ p.post }}</h5>
+	<p class="text-muted">Posted by {{ p.user.get_full_name }} on {{ p.created }}</p>
+	{% endfor %}
+
+	
+</div>
+<div class="clo-md-4">
+	<h1>Other People</h1>
+	{% for user in users %}
+	{% if user not in friends %}
+	<a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
+	<h5>{{ user.username }}</h5>
+</a>
+<a href="{% url 'home:change_friends' operation='add' pk=user.pk %}">		<button class="btn btn-success btn-sm" name="button">Add Friend</button>
+</a>
+{% endif %}
+	{% endfor %}
+	<h1>Friends</h1>
+		{% for friend in friends %}
+	<a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
+	<h5>{{ friend.username }}</h5>
+</a>
+<a href="{% url 'home:change_friends' operation='remove' pk=friend.pk %}"><button class="btn btn-danger btn-sm" name="button">Remove Friend</button>
+</a>
+	{% endfor %}
+</div>
+</div>
+{% endblock %}
